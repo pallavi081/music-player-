@@ -2,176 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Web Music Player</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #111;
-      color: #fff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .player {
-      width: 350px;
-      background: #1e1e1e;
-      padding: 20px;
-      border-radius: 12px;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    .playlist {
-      max-height: 150px;
-      overflow-y: auto;
-      margin-bottom: 15px;
-    }
-
-    .song {
-      padding: 8px;
-      cursor: pointer;
-      border-bottom: 1px solid #333;
-    }
-
-    .song.active {
-      background: #333;
-    }
-
-    .controls {
-      display: flex;
-      justify-content: space-around;
-      margin: 15px 0;
-    }
-
-    button {
-      background: #ff4757;
-      border: none;
-      padding: 10px;
-      color: white;
-      cursor: pointer;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      font-size: 16px;
-    }
-
-    .progress {
-      width: 100%;
-    }
-
-    .volume {
-      margin-top: 10px;
-    }
-  </style>
+  <title>Music Player</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="player">
-  <h2 id="song-title">Music Player</h2>
-
-  <div class="playlist" id="playlist"></div>
-
-  <input type="range" id="progress" class="progress" value="0">
-
-  <div class="controls">
-    <button onclick="prevSong()">⏮</button>
-    <button onclick="playPause()">▶</button>
-    <button onclick="nextSong()">⏭</button>
+<div class="player-container">
+  <!-- Left: Cover -->
+  <div class="cover-section">
+    <img src="cover.jpg" alt="Cover">
   </div>
 
-  <div class="volume">
-    Volume:
-    <input type="range" min="0" max="1" step="0.01" onchange="setVolume(this.value)">
-  </div>
+  <!-- Right: Details + Controls -->
+  <div class="player-section">
+    <h2 id="song-title">Sample Song</h2>
+    <p id="song-artist">Unknown Artist</p>
 
-  <audio id="audio"></audio>
+    <!-- Progress -->
+    <input type="range" id="progress" value="0">
+
+    <!-- Controls -->
+    <div class="controls">
+      <button onclick="prevSong()">⏮</button>
+      <button onclick="playPause()">▶️</button>
+      <button onclick="nextSong()">⏭</button>
+    </div>
+
+    <!-- Volume -->
+    <div class="volume">
+      🔊 <input type="range" min="0" max="1" step="0.01">
+    </div>
+  </div>
 </div>
 
-<script>
-  const songs = [
-    { title: "Song One", artist: "Artist A", src: "songs/song1.mp3" },
-    { title: "Song Two", artist: "Artist B", src: "songs/song2.mp3" },
-    { title: "Song Three", artist: "Artist C", src: "songs/song3.mp3" }
-  ];
-
-  const audio = document.getElementById("audio");
-  const playlistDiv = document.getElementById("playlist");
-  const progress = document.getElementById("progress");
-  const title = document.getElementById("song-title");
-
-  let currentSong = 0;
-  let isPlaying = false;
-
-  function loadPlaylist() {
-    playlistDiv.innerHTML = "";
-    songs.forEach((song, index) => {
-      const div = document.createElement("div");
-      div.classList.add("song");
-      div.innerText = `${song.title} - ${song.artist}`;
-      div.onclick = () => playSong(index);
-      playlistDiv.appendChild(div);
-    });
-  }
-
-  function playSong(index) {
-    currentSong = index;
-    audio.src = songs[index].src;
-    audio.play();
-    isPlaying = true;
-    updateUI();
-  }
-
-  function playPause() {
-    if (!audio.src) playSong(0);
-    else if (isPlaying) {
-      audio.pause();
-      isPlaying = false;
-    } else {
-      audio.play();
-      isPlaying = true;
-    }
-    updateUI();
-  }
-
-  function nextSong() {
-    currentSong = (currentSong + 1) % songs.length;
-    playSong(currentSong);
-  }
-
-  function prevSong() {
-    currentSong = (currentSong - 1 + songs.length) % songs.length;
-    playSong(currentSong);
-  }
-
-  function setVolume(value) {
-    audio.volume = value;
-  }
-
-  function updateUI() {
-    document.querySelectorAll(".song").forEach((s, i) => {
-      s.classList.toggle("active", i === currentSong);
-    });
-    title.innerText = songs[currentSong].title;
-  }
-
-  audio.ontimeupdate = () => {
-    progress.value = (audio.currentTime / audio.duration) * 100 || 0;
-  };
-
-  progress.oninput = () => {
-    audio.currentTime = (progress.value / 100) * audio.duration;
-  };
-
-  audio.onended = nextSong;
-
-  loadPlaylist();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
-<img src="images./cover.jpg" alt="Music Cover" width="200">
