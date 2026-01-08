@@ -2,37 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Music Player</title>
+  <title>Spotify Style Music Player</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="player-container">
-  <!-- Left: Cover -->
-  <div class="cover-section">
-    <img src="cover.jpg" alt="Cover">
+<div class="app">
+
+  <!-- Playlist -->
+  <div class="playlist">
+    <h3>Playlist</h3>
+    <ul id="songList"></ul>
   </div>
 
-  <!-- Right: Details + Controls -->
-  <div class="player-section">
-    <h2 id="song-title">Sample Song</h2>
-    <p id="song-artist">Unknown Artist</p>
+  <!-- Player -->
+  <div class="player">
+    <img id="cover" src="cover.jpg" alt="cover">
+
+    <h2 id="title">Song Title</h2>
+    <p id="artist">Artist Name</p>
 
     <!-- Progress -->
-    <input type="range" id="progress" value="0">
+    <div class="progress-container">
+      <span id="currentTime">0:00</span>
+      <input type="range" id="progress" value="0">
+      <span id="duration">0:00</span>
+    </div>
 
     <!-- Controls -->
     <div class="controls">
       <button onclick="prevSong()">⏮</button>
-      <button onclick="playPause()">▶️</button>
+      <button id="playBtn" onclick="playPause()">▶</button>
       <button onclick="nextSong()">⏭</button>
     </div>
 
     <!-- Volume -->
     <div class="volume">
-      🔊 <input type="range" min="0" max="1" step="0.01">
+      🔊 <input type="range" min="0" max="1" step="0.01" onchange="setVolume(this.value)">
     </div>
   </div>
+
 </div>
 
 <script src="script.js"></script>
